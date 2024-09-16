@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MULTIS-Engine", "MULTIS-Engine\MULTIS-Engine.csproj", "{E29D75CC-B1AB-4FEE-A122-59688571B89B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MULTIS-NUnit", "MULTIS-NUnit\MULTIS-NUnit.csproj", "{29A6358B-B384-49A5-BEAC-9E85CD7B1D0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E29D75CC-B1AB-4FEE-A122-59688571B89B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29D75CC-B1AB-4FEE-A122-59688571B89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29D75CC-B1AB-4FEE-A122-59688571B89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29D75CC-B1AB-4FEE-A122-59688571B89B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A6358B-B384-49A5-BEAC-9E85CD7B1D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A6358B-B384-49A5-BEAC-9E85CD7B1D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A6358B-B384-49A5-BEAC-9E85CD7B1D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A6358B-B384-49A5-BEAC-9E85CD7B1D0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B0FE093-5703-4B84-A04D-E22C5933404E}
+	EndGlobalSection
+EndGlobal

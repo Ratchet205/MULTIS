@@ -1,0 +1,9 @@
+{
+    "live-dummy": {
+        "staticfolder": "/Users/205ra/Desktop",
+        "prefixes": ["http://localhost:8080/"],
+        "routes": {
+            "/login": "alexrose.html"
+        }
+    }
+}
