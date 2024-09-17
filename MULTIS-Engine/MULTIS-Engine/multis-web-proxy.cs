@@ -41,7 +41,7 @@ namespace MULTIS_Engine
         {
             if(_listener != null)
             {
-                ReadWebConfig($"{Worker.workerpath}config/web-servers");
+                ReadWebConfig($"{Worker.WorkerPath}config/web-servers");
                 foreach(var server in _web_servers)
                 {
                     foreach(var prefix in server.Value.Prefixes)
@@ -62,7 +62,7 @@ namespace MULTIS_Engine
         {
             if (_listener != null)
             {
-                ReadWebConfig(logger, $"{Worker.workerpath}config/web-servers");
+                ReadWebConfig(logger, $"{Worker.WorkerPath}config/web-servers");
                 foreach (var server in _web_servers)
                 {
                     foreach (var prefix in server.Value.Prefixes)

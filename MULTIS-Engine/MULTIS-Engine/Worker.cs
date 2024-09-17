@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,11 +17,9 @@ namespace MULTIS_Engine
 
         private Timer? _timer;
 
-#if LINUX
-        public const string workerpath = "/etc/multis/";
-#else
-        public const string workerpath = null;
-#endif
+        private readonly static string workerpath = OperatingSystem.IsLinux() ? "/etc/multis/" : string.Empty;
+        public static string WorkerPath { get { return workerpath; } }
+
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
