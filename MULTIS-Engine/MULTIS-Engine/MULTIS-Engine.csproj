@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-MULTIS_Engine-8c01ec0b-bc89-4c31-8696-b70f5a98ac9e</UserSecretsId>
     <RootNamespace>MULTIS_Engine</RootNamespace>
+	<RuntimeIdentifiers>win-x64;win-x86;linux-x64;linux-arm;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>

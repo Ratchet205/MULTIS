@@ -17,15 +17,11 @@ namespace MULTIS_Engine
         private static HttpListener? _listener;
         private static bool setup = false;
 
-        private readonly string name;
         private readonly string _domain;
         private readonly string[] prefixes;
         private readonly string staticfolder;
         private readonly Dictionary<string, string> routes = [];
 
-
-
-        public string Name { get { return name; } }
         public string Domain { get { return _domain; } }
         public string[] Prefixes { get { return prefixes; } }
         public string StaticFolder { get { return staticfolder; } }
@@ -73,7 +69,7 @@ namespace MULTIS_Engine
                     {
                         if (!_listener.Prefixes.Contains(prefix))
                         {
-                            logger.LogInformation("[{ServerName}] adding Prefix: {Prefix}", server.Value.Name, prefix);
+                            logger.LogInformation("[{ServerName}] adding Prefix: {Prefix}", server.Value.Domain, prefix);
                             _listener.Prefixes.Add(prefix);
                         }
                     }
@@ -170,7 +166,7 @@ namespace MULTIS_Engine
             // Find the first top-level object in the config JSON
             var firstProperty = config.Properties().FirstOrDefault();
 
-            name = firstProperty?.Name ?? "Unknown";
+            _domain = firstProperty?.Name ?? "Unknown";
 
             if (firstProperty == null || firstProperty.Value is not JObject mainConfig)
             {
@@ -205,7 +201,7 @@ namespace MULTIS_Engine
             // Find the first top-level object in the config JSON
             var firstProperty = config.Properties().FirstOrDefault();
 
-            name = firstProperty?.Name ?? "Unknown";
+            _domain = firstProperty?.Name ?? "Unknown";
 
             if (firstProperty == null || firstProperty.Value is not JObject mainConfig)
             {
@@ -220,8 +216,6 @@ namespace MULTIS_Engine
                 throw new ArgumentException("Prefixes array cannot be empty.");
             }
 
-            _domain = prefixes[0];
-
             var Jroutes = mainConfig["routes"]?.ToObject<JObject>();
             if (Jroutes != null)
             {
@@ -232,7 +226,7 @@ namespace MULTIS_Engine
             }
 
             // Store the server instance in the dictionary
-            logger.LogInformation("Server {name} loaded successfully.", name);
+            logger.LogInformation("Server {name} loaded successfully.", _domain);
             _web_servers[_domain] = this;
         }
 
