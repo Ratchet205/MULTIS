@@ -24,12 +24,6 @@ namespace MULTIS_Engine
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             // Ensure directories exist
-            for(int i = 0; i < 10; i++)
-            {
-                _logger.LogInformation("{SystemVersion}", OperatingSystem.IsLinux().ToString());
-                _logger.LogInformation("{IsLinux}", Environment.OSVersion.ToString());
-                _logger.LogInformation("{path}", workerpath);
-            }
             EnsureDirectoryExists(workerpath);
             EnsureDirectoryExists($"{workerpath}config");
             EnsureDirectoryExists($"{workerpath}config/proxy-config");
