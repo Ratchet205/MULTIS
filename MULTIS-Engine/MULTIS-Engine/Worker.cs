@@ -108,8 +108,16 @@ namespace MULTIS_Engine
                                 _logger.LogWarning("No server found for URL: {Url}", req.Url);
                                 res.StatusCode = 404;
                                 using var output = res.OutputStream;
-                                byte[] buffer = Encoding.UTF8.GetBytes("Server Not Found");
-                                await output.WriteAsync(buffer, stoppingToken);
+                                if (res.OutputStream.CanWrite)
+                                {
+                                    byte[] buffer = Encoding.UTF8.GetBytes("Server Not Found");
+                                    await output.WriteAsync(buffer, stoppingToken);
+                                }
+                                else
+                                {
+                                    _logger.LogWarning("Output stream is closed, unable to write response.");
+                                }
+
                             }
                         }
                     }
