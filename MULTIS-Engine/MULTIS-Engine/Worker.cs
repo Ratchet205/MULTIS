@@ -108,15 +108,37 @@ namespace MULTIS_Engine
                                 _logger.LogWarning("No server found for URL: {Url}", req.Url);
                                 res.StatusCode = 404;
                                 using var output = res.OutputStream;
-                                if (res.OutputStream.CanWrite)
+                                try
                                 {
-                                    byte[] buffer = Encoding.UTF8.GetBytes("Server Not Found");
-                                    await output.WriteAsync(buffer, stoppingToken);
+                                    if (res.OutputStream.CanWrite)
+                                    {
+                                        byte[] buffer = Encoding.UTF8.GetBytes("Server Not Found");
+                                        await res.OutputStream.WriteAsync(buffer, stoppingToken);
+                                        await res.OutputStream.FlushAsync(stoppingToken);
+                                    }
                                 }
-                                else
+                                catch (ObjectDisposedException ex)
                                 {
-                                    _logger.LogWarning("Output stream is closed, unable to write response.");
+                                    // Client disconnected or response already disposed - log at a lower level or ignore
+                                    _logger.LogDebug("Client disconnected or HttpListenerResponse was already disposed: {Message}", ex.Message);
                                 }
+                                catch (Exception ex)
+                                {
+                                    // Log other unhandled exceptions
+                                    _logger.LogError("Unexpected error while writing response: {Message}", ex.Message);
+                                }
+                                finally
+                                {
+                                    try
+                                    {
+                                        res.Close();  // Ensure response is closed properly
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        _logger.LogWarning("Error while closing HttpListenerResponse: {Message}", ex.Message);
+                                    }
+                                }
+
 
                             }
                         }
