@@ -272,9 +272,10 @@ namespace MULTIS_Engine
         public async Task Responde(ILogger<Worker> logger, HttpListenerRequest req, HttpListenerResponse res, CancellationToken cts)
         {
             string reqPath = req.RawUrl ?? "/";
+            byte[] buffer;
+
             try
             {
-                byte[] buffer;
                 string resPath = routes.TryGetValue(reqPath, out var path)
                     ? Path.Combine(staticfolder, path)
                     : reqPath == "/"
@@ -284,23 +285,23 @@ namespace MULTIS_Engine
                 if (File.Exists(resPath))
                 {
                     string mimeType = MimeTypesMap.GetMimeType(resPath);
-                    using (var fileStream = File.OpenRead(resPath))
-                    {
-                        buffer = new byte[fileStream.Length];
-                        await fileStream.ReadAsync(buffer, cts);
-                    }
                     res.ContentType = mimeType;
+
+                    using var fileStream = File.OpenRead(resPath);
+                    buffer = new byte[fileStream.Length];
+                    await fileStream.ReadAsync(buffer, cts);
                 }
                 else
                 {
-                    routes.TryGetValue(reqPath, out string? actual_reqFile);
-                    logger.LogInformation("File \"{actual_reqFile}\" not found", actual_reqFile);
+                    logger.LogInformation("File \"{reqPath}\" not found", reqPath);
                     buffer = Encoding.UTF8.GetBytes($"\"{reqPath}\" not found");
                     res.StatusCode = 404;
                     res.ContentType = "text/plain";
                 }
 
                 res.ContentLength64 = buffer.Length;
+
+                // Write to OutputStream
                 using var output = res.OutputStream;
                 await output.WriteAsync(buffer, cts);
             }
@@ -308,15 +309,29 @@ namespace MULTIS_Engine
             {
                 logger.LogError("Error processing request: {Message}", ex.Message);
                 res.StatusCode = 500;
-                using var output = res.OutputStream;
-                byte[] buffer = Encoding.UTF8.GetBytes("Internal Server Error");
-                await output.WriteAsync(buffer, cts);
+                byte[] errorBuffer = Encoding.UTF8.GetBytes("Internal Server Error");
+
+                // Ensure output stream is available before writing
+                try
+                {
+                    using var output = res.OutputStream;
+                    await output.WriteAsync(errorBuffer, cts);
+                }
+                catch (ObjectDisposedException objEx)
+                {
+                    logger.LogDebug("OutputStream already disposed: {Message}", objEx.Message);
+                }
+                catch (Exception writeEx)
+                {
+                    logger.LogError("Error writing to response: {Message}", writeEx.Message);
+                }
             }
             finally
             {
-                res.OutputStream.Close();
+                // No need to close OutputStream here, as it's handled in the using statement
             }
         }
+
 
     }
 }

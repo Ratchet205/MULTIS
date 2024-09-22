@@ -106,11 +106,17 @@ namespace MULTIS_Engine
                             else
                             {
                                 _logger.LogWarning("No server found for URL: {Url}", req.Url);
+
+                                // Set response to 404 and send "Server Not Found" message
                                 res.StatusCode = 404;
-                                using var output = res.OutputStream;
+
                                 try
                                 {
-                                    if (res.OutputStream.CanWrite)
+                                    if (!res.OutputStream.CanWrite)
+                                    {
+                                        _logger.LogWarning("Cannot write to the response stream for URL: {Url}", req.Url);
+                                    }
+                                    else
                                     {
                                         byte[] buffer = Encoding.UTF8.GetBytes("Server Not Found");
                                         await res.OutputStream.WriteAsync(buffer, stoppingToken);
@@ -119,27 +125,27 @@ namespace MULTIS_Engine
                                 }
                                 catch (ObjectDisposedException ex)
                                 {
-                                    // Client disconnected or response already disposed - log at a lower level or ignore
                                     _logger.LogDebug("Client disconnected or HttpListenerResponse was already disposed: {Message}", ex.Message);
                                 }
                                 catch (Exception ex)
                                 {
-                                    // Log other unhandled exceptions
                                     _logger.LogError("Unexpected error while writing response: {Message}", ex.Message);
                                 }
                                 finally
                                 {
                                     try
                                     {
-                                        res.Close();  // Ensure response is closed properly
+                                        res.Close(); // Ensure response is closed properly
+                                    }
+                                    catch (ObjectDisposedException)
+                                    {
+                                        _logger.LogDebug("Response already disposed.");
                                     }
                                     catch (Exception ex)
                                     {
                                         _logger.LogWarning("Error while closing HttpListenerResponse: {Message}", ex.Message);
                                     }
                                 }
-
-
                             }
                         }
                     }
@@ -155,6 +161,7 @@ namespace MULTIS_Engine
                 }
             }
         }
+
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
