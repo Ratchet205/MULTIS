@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Multis</id>
+    <version>1.0.0</version>
+    <authors>Ratchet205</authors>
+    <owners>Ratchet205</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>https://github.com/Ratchet205/Multis</description>
+    <tags>Web Proxy Https</tags>
+
+    <dependencies>
+      <group targetFramework="net8.0">
+        <!-- No dependencies -->
+      </group>
+    </dependencies>
+  </metadata>
+
+  <files>
+    <!-- Multis.Core -->
+    <file src="Multis.Core\bin\Release\net8.0\Multis.Core.dll" target="lib\net8.0" />
+    <file src="Multis.Core\bin\Release\net8.0\Multis.Core.pdb" target="lib\net8.0" />
+
+    <!-- Multis.Https -->
+    <file src="Multis.Https\bin\Release\net8.0\Multis.Https.dll" target="lib\net8.0" />
+    <file src="Multis.Https\bin\Release\net8.0\Multis.Https.pdb" target="lib\net8.0" />
+
+    <!-- Multis.Web -->
+    <file src="Multis.Web\bin\Release\net8.0\Multis.Web.dll" target="lib\net8.0" />
+    <file src="Multis.Web\bin\Release\net8.0\Multis.Web.pdb" target="lib\net8.0" />
+  </files>
+</package>

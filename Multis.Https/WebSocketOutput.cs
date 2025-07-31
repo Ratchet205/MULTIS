@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Multis.Core
+namespace Multis.Https
 {
-    internal class WebServerInstanceConfig
+    public class WebSocketOutput
     {
     }
 }

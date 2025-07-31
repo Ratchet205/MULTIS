@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Multis.Core\Multis.Core.csproj" />
+    <ProjectReference Include="..\Multis.Https\Multis.Https.csproj" />
+    <ProjectReference Include="..\Multis.Web\Multis.Web.csproj" />
   </ItemGroup>
 
 </Project>
